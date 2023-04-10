@@ -6,5 +6,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
     void Update(TEntity entity);
     TEntity GetById(long id);
     List<TEntity> GetAll();
-    TEntity Any(Func<TEntity, bool> expression);
+    bool Any(Func<TEntity, bool> expression);
 }

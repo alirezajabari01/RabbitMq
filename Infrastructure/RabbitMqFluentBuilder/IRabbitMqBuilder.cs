@@ -7,6 +7,7 @@ public interface IRabbitMqBuilder
 public interface IQueueDeclareBuilder
 {
     IDeclareExchange DeclareQueue(string queueName, bool durable, bool exclusive, bool autoDelete);
+    void Publish(string exchange, string routingKey, byte[] body);
 }
 
 public interface IDeclareExchange
@@ -21,5 +22,5 @@ public interface IBindExchange
 
 public interface IPublisher
 {
-    IBindExchange Publish(string exchange, string routingKey, byte[] body);
+    void Publish(string exchange, string routingKey, byte[] body);
 }

@@ -1,3 +1,5 @@
+using System.Reflection;
+using Application;
 using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.RabbitMq;
@@ -29,7 +31,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IQueueDeclareBuilder, RabbitMqManager>();
-
+builder.Services.AddApplicationServices();
 // builder.Services.AddRabbitMqServices(configure);
 // builder.Services.AddPersistenceServices();
 

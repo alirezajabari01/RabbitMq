@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Text.Json;
+using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Common;
 using Infrastructure.RabbitMqFluentBuilder;
@@ -54,7 +56,7 @@ public class RabbitMqManager : IRabbitMqBuilder, IQueueDeclareBuilder, IDeclareE
         return message.EncodeMessage();
     }
 
-    public IBindExchange Publish(string exchange, string routingKey, byte[] body)
+    public void Publish(string exchange, string routingKey, byte[] body)
     {
         _channel.BasicPublish
         (
@@ -63,7 +65,6 @@ public class RabbitMqManager : IRabbitMqBuilder, IQueueDeclareBuilder, IDeclareE
             null,
             body
         );
-        return this;
     }
 
     public IBindExchange DeclareExchange(string exchange, string type, bool durable, bool autoDelete)
@@ -78,20 +79,11 @@ public class RabbitMqManager : IRabbitMqBuilder, IQueueDeclareBuilder, IDeclareE
         return this;
     }
 
-    public string ConsumeMessage(string queueName)
+    public byte[] ConsumeMessage(string queueName)
     {
-        string message = String.Empty;
-
-
-        var consumer = new EventingBasicConsumer(_channel);
-
-        var res = _channel.BasicGet(queueName, true);
-
-        // _channel.BasicAck(deliveryTag:1,false);
-
-        message = Encoding.UTF8.GetString(res.Body.ToArray());
-
-        return message;
+        return _channel.BasicGet(queueName, true)
+            .Body
+            .ToArray();
     }
 
     public string Build()

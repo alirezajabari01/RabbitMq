@@ -32,7 +32,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return _dbSet.ToList();
     }
 
-    public TEntity Any(Func<TEntity, bool> expression)
+    public bool Any(Func<TEntity, bool> expression)
     {
         throw new NotImplementedException();
     }
